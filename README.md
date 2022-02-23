@@ -182,7 +182,7 @@ Closing DB...
 - 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
 &emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
-&emsp;&emsp; 管理员密码：admin  &emsp; (加密存储) </p>
+&emsp;&emsp; 管理员密码：admin  &emsp; （加密存储）</p>
 
 #### 4. OpenLDAP服务管理
 ```shell
@@ -234,7 +234,6 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
      第5,6位表示密码必须包含几位小写字母
      第7,8位表示密码必须包含几位数字
      第9,10位表示密码必须包含几位特殊字符
-
      例如：
       0|01010101       表示用户密码必须包含1位大写字母，1位小写字母，1位数字和1位特殊字符
       0|03020100       表示用户密码必须包含3位大写字母，2位小写字母和1位数字
