@@ -198,4 +198,204 @@ Usage: /usr/sbin/ldapctl {start|stop|status|restart|check|pass|cat}
 # ldapctl cat               # 查看ldap数据，用于数据备份
 ```
 
+#### 5. 修改OpenLDAP管理员密码
+```shell
+[root@local ~]# ldapctl pass
+New password:                                       # 新密码
+Re-enter new password:                              # 重复新密码
+{SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq              # 加密后的密码
+
+[root@local ~]# vim /usr/local/openldap/etc/openldap/slapd.conf   # 修改配置文件
+rootdn      "cn=admin,dc=example,dc=local"
+rootpw      {SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq                # 将rootpw值进行替换
+
+[root@local ~]# ldapctl restart                                   # 重启openldap服务
+Stopping OpenLDAP (pid: 26939)   [ OK ]
+Starting OpenLDAP (pid: 27019)   [ OK ]
+```
+
+#### 6. 调整密码复杂度
+```shell
+[root@local ~]# cat /usr/local/openldap/etc/openldap/pqparams.dat 
+# Data format: 0|UULLDDSS@)..
+# Or         : 1|UULLDDSS@)..
+#
+# 1st character is the modified passwords broadcast flag. 1 -> Broadcast, 0 -> Don't broadcast
+# 2nd character is a separator
+# U: Uppercase, L: Lowercase, D: Digit, S: Special characters -> from 3rd to 10th charater.
+# From the 11th character begins the list of forbidden characters
+# Defaulti: No broadcast, 1 Uppercase, 1 Lowercase, 1 digit, 1 Special and no forbidden characters
+0|00010101
+```
+```shell
+0|00000000  共10位
+     第1,2位默认使用"0|"
+     第3,4位表示密码必须包含几位大写字母，01包含1位、02则包含2位
+     第5,6位表示密码必须包含几位小写字母
+     第7,8位表示密码必须包含几位数字
+     第9,10位表示密码必须包含几位特殊字符
+
+     例如：
+      0|01010101       表示用户密码必须包含1位大写字母，1位小写字母，1位数字和1位特殊字符
+      0|03020100       表示用户密码必须包含3位大写字母，2位小写字母和1位数字
+```
+
+
+## 五、基于CentOS7的客户端安装
+#### 1. 安装openldap客户端工具
+```shell
+[root@local ~]# yum install openldap-clients
+```
+
+#### 2. 复制服务端证书“/usr/local/openldap/etc/openldap/certs/ca.pem”到客户端“/etc/openldap/certs/”目录下
+```shell
+[root@local ~]# ls -lh /etc/openldap/certs/ca.pem 
+-rw-r--r-- 1 root root 1.3K Jan 13  2022 /etc/openldap/certs/ca.pem
+```
+
+#### 3. 修改openldap客户端配置文件
+```shell
+[root@local ~]# vi /etc/openldap/ldap.conf   # 追加一下内容
+URI ldaps://ldaps.example.local
+BASE dc=example,dc=local
+TLS_CACERT /etc/openldap/certs/ca.pem
+TLS_REQCERT allow
+SUDOERS_BASE ou=sudoers,dc=example,dc=local
+```
+
+#### 4. 使用命令`ldapsearch -x`能够查询到相关服务端信息
+```shell
+[root@local ~]# ldapsearch -x
+# extended LDIF
+#
+# LDAPv3
+# base <dc=example,dc=local> (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# example.local
+dn: dc=example,dc=local
+...
+```
+
+#### 5. 安装配置nslcd服务
+```shell
+[root@local ~]# yum install nss-pam-ldapd
+[root@local ~]# vi /etc/nslcd.conf           # 修改以下内容为
+uri ldaps://ldaps.example.local
+base dc=example,dc=local
+tls_reqcert allow
+tls_cacertfile /etc/openldap/certs/ca.pem
+```
+``` shell
+[root@local ~]# systemctl restart nslcd
+[root@local ~]# systemctl enable nslcd
+```
+
+#### 6. 修改“/etc/nsswitch.conf”文件
+```shell
+[root@local ~]# cp /etc/nsswitch.conf /etc/nsswitch.conf.old
+[root@local ~]# vi /etc/nsswitch.conf       # 修以下三项内容为
+passwd:     files ldap
+shadow:     files ldap
+group:      files ldap
+```
+```shell
+sudoers:    files ldap                      # 在最后追加，sudoers需要此项
+```
+
+#### 7. 修改“etc/pam.d/system-auth”和“/etc/pam.d/password-auth”文件**
+```shell
+[root@local ~]# vi /etc/pam.d/system-auth && vi /etc/pam.d/password-auth
+auth        sufficient    pam_ldap.so use_first_pass                  # 在auth项的-2行插入
+account     [success=ok user_unknown=ignore default=bad] pam_ldap.so  # 在account项的-2行插入
+password    sufficient    pam_ldap.so use_autook                      # 在password项的-2行插入
+session     optional      pam_ldap.so                                 # 在session项的-1行插入
+session     optional      pam_mkhomedir.so                            # 在session项的-1行插入，用户第一次登录会自动创建home
+```
+
+#### 8. 备份“/etc/sudo-ldap.conf”文件并创建到“/etc/openldap/ldap.conf”的链接
+```shell
+[root@local ~]# mv /etc/sudo-ldap.conf /etc/sudo-ldap.conf.old
+[root@local ~]# ln -sv /etc/openldap/ldap.conf /etc/sudo-ldap.conf
+```
+
+
+##
+
+### 三、基于Ubuntu18、Ubuntu16、Debian9
+**1、安装openldap客户端工具**
+```shell
+# apt install ldap-utils
+```
+
+**2、复制服务端证书“/usr/local/openldap/etc/openldap/cert/ca.crt”到客户端“/etc/ssl/certs/”目录下**
+```shell
+# [ ! -f /etc/ssl/certs/ca-certificates.crt ] && apt install ca-certificates
+                                                                  # 安装依赖，如果不存在
+
+# ls -l /etc/ssl/certs/ca.crt                                     # 复制ca.crt文件到certs目录下
+-rw-r--r-- 1 root root 1159 10月  8 17:03 /etc/ssl/certs/ca.crt
+
+```
+
+**3、修改openldap客户端配置文件**
+```shell
+# vim /etc/ldap/ldap.conf
+URI ldaps://ldap.speech.local
+BASE dc=speech,dc=local
+TLS_CACERT /etc/ssl/certs/ca.crt
+TLS_REQCERT allow
+SUDOERS_BASE ou=sudoers,dc=speech,dc=local
+```
+
+**4、使用命令`ldapsearch -x`能够查询到相关服务端信息，或使用以下命令验证用户名密码（如果该用户存在）**
+```shell
+# ldapwhoami -x -D "uid=user1,ou=G01,dc=speech,dc=local" -W
+Enter LDAP Password: 
+dn:uid=user1,ou=G01,dc=speech,dc=local
+```
+
+**5、安装软件包libpam-ldapd和libnss-ldapd，安装完后修改“/etc/nslcd.conf”指定证书文件位置并重启服务**
+```shell
+# apt install libpam-ldapd libnss-ldapd
+```
+![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu1.jpg)
+![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu2.jpg)
+![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu3.jpg)
+![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu4.jpg)
+
+```shell
+# vim /etc/nslcd.conf
+tls_cacertfile /etc/ssl/certs/ca.crt      # 修改此项，指定ca.crt证书
+
+# systemctl restart nslcd                 # 重启nslcd服务
+
+# systemctl stop nscd                     # 关闭nscd服务（如果存在）
+# systemctl disable nscd
+```
+
+**6、修改“/etc/nsswitch.conf”文件**
+```shell
+# vim /etc/nsswitch.conf       # 修以下三项为
+passwd:     files ldap
+shadow:     files ldap
+group:      files ldap
+```
+```shell
+sudoers:    files ldap         # 在最后添加，sudoers需要此项
+```
+
+**7、修改“/etc/pam.d/common-session”文件**
+```shell
+# vim /etc/pam.d/common-session
+session optional        pam_mkhomedir.so   # 在最后行添加，用户第一次登录会自动创建home
+```
+
+**8、安装sudo-ldap**
+```shell
+# apt install sudo-ldap
+```
+
 
