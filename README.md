@@ -404,7 +404,7 @@ root@local:~# apt install sudo-ldap
 
 
 ## 七、用户管理
-#### 1. 使用"[LdapAdmin](http://www.ldapadmin.org/download/ldapadmin.html)"登录OpenLDAP，连接信息如下
+#### 1. 使用"[LdapAdmin](http://www.ldapadmin.org/download/index.html)"登录OpenLDAP，连接信息如下
 ![](./img/ldap-5.jpg)
 
 #### 2. 管理界面如下
@@ -434,6 +434,12 @@ root@local:~# apt install sudo-ldap
 
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
 ![](./img/ldap-18.jpg)
+
+#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录强制修改密码
+![](./img/ldap-19.jpg)
+
+#### 11. 再次登录成功
+![](./img/ldap-20.jpg)
 
 
 
