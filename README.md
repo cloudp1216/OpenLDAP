@@ -174,9 +174,10 @@ Closing DB...
 
 #### 3. OpenLDAP自动初始化（使用rpm包安装完OpenLDAP后会自动进行数据初始化，无需操作）
 - 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下
-- 修改hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
+- 默认域名为"ldaps.example.local"（要求加入统一认证的服务器能够正常解析该域名）
+- 修改本地hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"的解析记录
 - 默认域为"dc=example,dc=local"
-- 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"
+- 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"（密码最小长度为8位）
 - 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）
 - 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"
 - 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
