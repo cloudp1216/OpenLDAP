@@ -369,37 +369,37 @@ root@local:~# apt install libpam-ldapd libnss-ldapd
 ![](./img/ldap-3.jpg)
 ![](./img/ldap-4.jpg)
 
-
 ```shell
-# vim /etc/nslcd.conf
-tls_cacertfile /etc/ssl/certs/ca.crt      # 修改此项，指定ca.crt证书
-
-# systemctl restart nslcd                 # 重启nslcd服务
-
-# systemctl stop nscd                     # 关闭nscd服务（如果存在）
-# systemctl disable nscd
-```
-
-**6、修改“/etc/nsswitch.conf”文件**
-```shell
-# vim /etc/nsswitch.conf       # 修以下三项为
-passwd:     files ldap
-shadow:     files ldap
-group:      files ldap
+root@local:~# vi /etc/nslcd.conf
+tls_cacertfile /etc/ldap/certs/ca.pem     # 调整此项
 ```
 ```shell
-sudoers:    files ldap         # 在最后添加，sudoers需要此项
+root@local:~# systemctl restart nslcd
+root@local:~# systemctl stop nscd
+root@local:~# systemctl disable nscd
 ```
 
-**7、修改“/etc/pam.d/common-session”文件**
+#### 6. 修改"/etc/nsswitch.conf"文件
 ```shell
-# vim /etc/pam.d/common-session
-session optional        pam_mkhomedir.so   # 在最后行添加，用户第一次登录会自动创建home
+root@local:~# cp /etc/nsswitch.conf /etc/nsswitch.conf.old
+root@local:~# vi /etc/nsswitch.conf       # 调整以下三项为
+passwd:         files ldap
+group:          files ldap
+shadow:         files ldap
+```
+```shell
+sudoers:        files ldap                # 在最后追加，sudoers需要此项
 ```
 
-**8、安装sudo-ldap**
+#### 7. 修改"/etc/pam.d/common-session"文件
 ```shell
-# apt install sudo-ldap
+root@local:~# vi /etc/pam.d/common-session
+session optional        pam_mkhomedir.so  # 在最后行添加，用户第一次登录会自动创建home
+```
+
+#### 8. 安装sudo-ldap
+```shell
+root@local:~# apt install sudo-ldap
 ```
 
 
