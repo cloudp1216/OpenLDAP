@@ -295,13 +295,13 @@ tls_cacertfile /etc/openldap/certs/ca.pem
 #### 6. 修改"/etc/nsswitch.conf"文件
 ```shell
 [root@local ~]# cp /etc/nsswitch.conf /etc/nsswitch.conf.old
-[root@local ~]# vi /etc/nsswitch.conf       # 修以下三项内容为
+[root@local ~]# vi /etc/nsswitch.conf        # 修以下三项内容为
 passwd:     files ldap
 shadow:     files ldap
 group:      files ldap
 ```
 ```shell
-sudoers:    files ldap                      # 在最后追加，sudoers需要此项
+sudoers:    files ldap                       # 在最后追加，sudoers需要此项
 ```
 
 #### 7. 修改"/etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件
@@ -314,7 +314,7 @@ session     optional      pam_ldap.so                                 # 在sessi
 session     optional      pam_mkhomedir.so                            # 在session项的-1行插入，用户第一次登录会自动创建home
 ```
 ```shell
-[root@local ~]# cat /etc/pam.d/password-auth                          # 完成的配置如下
+[root@local ~]# cat /etc/pam.d/password-auth                          # 完整的配置如下
 #%PAM-1.0
 # This file is auto-generated.
 # User changes will be destroyed the next time authconfig is run.
