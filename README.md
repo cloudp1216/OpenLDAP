@@ -262,7 +262,7 @@ TLS_REQCERT allow
 SUDOERS_BASE ou=sudoers,dc=example,dc=local
 ```
 
-#### 4. 使用命令`ldapsearch -x`能够查询到相关服务端信息
+#### 4. 使用命令 `ldapsearch -x` 能够查询服务端信息
 ```shell
 [root@local ~]# ldapsearch -x
 # extended LDIF
@@ -304,7 +304,7 @@ group:      files ldap
 sudoers:    files ldap                      # 在最后追加，sudoers需要此项
 ```
 
-#### 7. 修改"etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件
+#### 7. 修改"/etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件
 ```shell
 [root@local ~]# vi /etc/pam.d/system-auth && vi /etc/pam.d/password-auth
 auth        sufficient    pam_ldap.so use_first_pass                  # 在auth项的-2行插入
@@ -312,6 +312,38 @@ account     [success=ok user_unknown=ignore default=bad] pam_ldap.so  # 在accou
 password    sufficient    pam_ldap.so use_autook                      # 在password项的-2行插入
 session     optional      pam_ldap.so                                 # 在session项的-1行插入
 session     optional      pam_mkhomedir.so                            # 在session项的-1行插入，用户第一次登录会自动创建home
+```
+```shell
+[root@local ~]# cat /etc/pam.d/password-auth                          # 完成的配置如下
+#%PAM-1.0
+# This file is auto-generated.
+# User changes will be destroyed the next time authconfig is run.
+auth        required      pam_env.so
+auth        required      pam_faildelay.so delay=2000000
+auth        sufficient    pam_unix.so nullok try_first_pass
+auth        requisite     pam_succeed_if.so uid >= 1000 quiet_success
+auth        sufficient    pam_ldap.so use_first_pass
+auth        required      pam_deny.so
+
+account     required      pam_unix.so
+account     sufficient    pam_localuser.so
+account     sufficient    pam_succeed_if.so uid < 1000 quiet
+account     [success=ok user_unknown=ignore default=bad] pam_ldap.so
+account     required      pam_permit.so
+
+password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
+password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
+
+password    sufficient    pam_ldap.so use_autook
+password    required      pam_deny.so
+
+session     optional      pam_keyinit.so revoke
+session     required      pam_limits.so
+-session     optional      pam_systemd.so
+session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
+session     required      pam_unix.so
+session     optional      pam_ldap.so
+session     optional      pam_mkhomedir.so
 ```
 
 #### 8. 备份"/etc/sudo-ldap.conf"文件并创建到"/etc/openldap/ldap.conf"的链接
@@ -344,7 +376,7 @@ TLS_REQCERT allow
 SUDOERS_BASE ou=sudoers,dc=example,dc=local
 ```
 
-#### 4、使用命令`ldapsearch -x`能够查询到相关服务端信息
+#### 4、使用命令 `ldapsearch -x` 能够查询服务端信息
 ```shell
 root@local:~# ldapsearch -x
 # extended LDIF
@@ -459,7 +491,7 @@ root@local:~# apt install sudo-ldap
 #### 2. 查看"user1"用户是否具有root权限
 ![](./img/ldap-23.jpg)
 
-#### 3. 附：sudo属性定义
+#### 附：sudo属性定义
 - sudoCommand：可执行的二进制命令
 - sudoHost：可在哪些机器上执行sudoCommand定义的命令
 - sudoUser：限制哪些用户具有sudo权限
