@@ -174,14 +174,14 @@ Closing DB...
 ```
 
 #### 3. OpenLDAP自动初始化（使用rpm包安装完OpenLDAP后会自动进行数据初始化，无需操作）
-- 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下；
+- 生成默认配置文件包括证书，位于"/usr/local/openldap/etc/openldap"目录下；
 - 默认域名为"ldaps.example.local"（要求加入统一认证的服务器能够正常解析该域名）；
 - 修改本地hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"的解析记录；
 - 默认域为"dc=example,dc=local"；
 - 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"（密码最小长度为8位）；
 - 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）；
 - 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"；
-- 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下；
+- 服务启动为ldaps，监听636端口（如需要启动ldap，监听389端口请手动执行命令：`/usr/local/openldap/sbin/slapd -h ldap:///` ）；
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
 &emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
 &emsp;&emsp; 管理员密码：admin  &emsp;&emsp; （加密存储）</p>
@@ -469,14 +469,14 @@ root@local:~# apt install sudo-ldap
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
 ![](./img/ldap-18.jpg)
 
-#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录会强制修改密码（注意新密码复杂度要求）
+#### 10. 使用"user1"用户登录已添到统一认证的服务器，第一次登录会强制修改密码（注意新密码复杂度要求）
 ![](./img/ldap-19.jpg)
 
 #### 11. 再次登录成功
 ![](./img/ldap-20.jpg)
 
 #### 附：用户的shadowAccount对象属性：
-- shadowLastChange：密码从1970年1月1日开始，到最近一次修改，一共间隔了多少天；该值如果设置成0，则表示下次登陆将强制修改密码，用户修改密码成功以后，该值将发生对应的变化；
+- shadowLastChange：密码从1970年1月1日开始，到最近一次修改，一共间隔了多少天；该值如果设置成0，则表示下次登陆将强制修改密码，用户修改密码成功以后，该值将发生变化；
 - shadowMin：密码从shadowLastChange指定的日期开始，到多少天以后才能再次修改密码, 防止某些人天天没事就修改密码, 此值设置成0表示不限制；
 - shadowMax：密码从shadowLastChange指定的日期开始，到多少天以后过期（即多少天后必须更改密码）；
 - shadowInactive：密码过期以后还可以登陆多少天（每次登陆都会要求更改密码），如果超过此值指定的天数，下次登陆时会提示"Your account has expired; please contact your system administrator"；
