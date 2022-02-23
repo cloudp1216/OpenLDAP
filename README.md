@@ -196,7 +196,7 @@ Usage: /usr/sbin/ldapctl {start|stop|status|restart|check|pass|cat}
 # ldapctl restart           # 重启slapd服务
 # ldapctl check             # 检查slapd配置文件是否正确
 # ldapctl pass              # 创建加密密码
-# ldapctl cat               # 查看ldap数据，用于数据备份
+# ldapctl cat               # 查看ldap数据，常用于数据备份
 ```
 
 #### 5. 修改OpenLDAP管理员密码
@@ -241,8 +241,8 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
 ```
 
 
-## 五、基于CentOS7的客户端安装
-#### 1. 安装openldap客户端工具
+## 五、基于CentOS7的客户端部署
+#### 1. 安装OpenLDAP客户端工具
 ```shell
 [root@local ~]# yum install openldap-clients
 ```
@@ -354,7 +354,7 @@ session     optional      pam_mkhomedir.so
 ```
 
 
-## 六、基于Ubuntu16、Ubuntu18、Debian9、Debian10的客户端安装
+## 六、基于Ubuntu16.04、Ubuntu18.04、Ubuntu20.04、Debian9、Debian10的客户端部署
 #### 1. 安装OpenLDAP客户端工具
 ```shell
 root@local:~# apt install ldap-utils
