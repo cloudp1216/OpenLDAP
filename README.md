@@ -13,6 +13,8 @@
 
 - objectClass：在OpenLDAP目录树中，每个条目必须包含一个属于自身条件的对象类（objectClass），然后再定义其条目属性及对应的值；OpenLDAP条目的属性能否添加取决于条目所继承的objectClass是否包含此属性，objectClass具有继承关系。
 
+- LDIF：轻量级目录访问协议数据交换格式的简称，是存储LDAP配置信息及目录内容的标准文本文件格式，通常在OpenLDAP服务器之间相互交换数据。
+
 - Attribute：属性在目录树中主要用于描述条目相关信息，常用的属性包括：
 
 | 属性 | 描述 |
@@ -26,7 +28,6 @@
 | dc | 一个域名 |
 | cn | 一个对象的名称 |
 
-- LDIF：轻量级目录访问协议数据交换格式的简称，是存储LDAP配置信息及目录内容的标准文本文件格式，通常在OpenLDAP服务器之间相互交换数据。
 
 
 ## 二、编译安装OpenLDAP
@@ -173,14 +174,14 @@ Closing DB...
 ```
 
 #### 3. OpenLDAP自动初始化（使用rpm包安装完OpenLDAP后会自动进行数据初始化，无需操作）
-- 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下
-- 默认域名为"ldaps.example.local"（要求加入统一认证的服务器能够正常解析该域名）
-- 修改本地hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"的解析记录
-- 默认域为"dc=example,dc=local"
-- 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"（密码最小长度为8位）
-- 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）
-- 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"
-- 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
+- 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下；
+- 默认域名为"ldaps.example.local"（要求加入统一认证的服务器能够正常解析该域名）；
+- 修改本地hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"的解析记录；
+- 默认域为"dc=example,dc=local"；
+- 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"（密码最小长度为8位）；
+- 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）；
+- 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"；
+- 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下；
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
 &emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
 &emsp;&emsp; 管理员密码：admin  &emsp;&emsp; （加密存储）</p>
@@ -475,13 +476,13 @@ root@local:~# apt install sudo-ldap
 ![](./img/ldap-20.jpg)
 
 #### 附：用户的shadowAccount对象属性：
-- shadowLastChange：密码从1970年1月1日开始, 到最近一次修改, 一共间隔了多少天. 比如这里指定成16967就表示2016年6月15日. 也可以直接获取当天的日期,方法为:在系统里useradd一个用户,查看/etc/shadow中该用户的第三个值, 即是该值. 该值如果设置成0, 则表示下次登陆将强制修改密码, 用户修改密码成功以后, 该值将发生对应的变化;
-- shadowMin：密码从shadowLastChange指定的日期开始, 到多少天以后才能再次修改密码, 防止某些人天天没事就修改密码, 此值设置成0表示不限制;
-- shadowMax：密码从shadowLastChange指定的日期开始, 到多少天以后过期(即多少天后必须更改密码);
-- shadowInactive：密码过期以后还可以登陆多少天(每次登陆都会要求更改密码), 如果超过此值指定的天数, 下次登陆时会提示"Your account has expired; please contact your system administrator";
-- shadowWarning：提前多少天开始警告用户密码将会过期;
-- shadowExpire：密码从1970年1月1日开始, 多少天以后将会过期;
-- shadowFlag：暂时无用
+- shadowLastChange：密码从1970年1月1日开始，到最近一次修改，一共间隔了多少天；该值如果设置成0，则表示下次登陆将强制修改密码，用户修改密码成功以后，该值将发生对应的变化；
+- shadowMin：密码从shadowLastChange指定的日期开始，到多少天以后才能再次修改密码, 防止某些人天天没事就修改密码, 此值设置成0表示不限制；
+- shadowMax：密码从shadowLastChange指定的日期开始，到多少天以后过期（即多少天后必须更改密码）；
+- shadowInactive：密码过期以后还可以登陆多少天（每次登陆都会要求更改密码），如果超过此值指定的天数，下次登陆时会提示"Your account has expired; please contact your system administrator"；
+- shadowWarning：提前多少天开始警告用户密码将会过期；
+- shadowExpire：密码从1970年1月1日开始, 多少天以后将会过期；
+- shadowFlag：暂时无用。
 
 
 ## 八、用户sudo管理
@@ -493,11 +494,11 @@ root@local:~# apt install sudo-ldap
 ![](./img/ldap-23.jpg)
 
 #### 附：sudo属性定义
-- sudoCommand：可执行的二进制命令
-- sudoHost：可在哪些机器上执行sudoCommand定义的命令
-- sudoUser：限制哪些用户具有sudo权限
-- sudoOption：定义超过自身权限及切换至其他用户时，是否需要输入当前用户密码
-- sudoRunAs：可切换到定义的用户身份下执行bash命令
+- sudoCommand：可执行的二进制命令；
+- sudoHost：可在哪些机器上执行sudoCommand定义的命令；
+- sudoUser：限制哪些用户具有sudo权限；
+- sudoOption：定义超过自身权限及切换至其他用户时，是否需要输入当前用户密码；
+- sudoRunAs：可切换到定义的用户身份下执行bash命令。
 
 
 ## 九、OpenLDAP数据备份与恢复
