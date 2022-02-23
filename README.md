@@ -304,7 +304,7 @@ group:      files ldap
 sudoers:    files ldap                      # 在最后追加，sudoers需要此项
 ```
 
-#### 7. 修改"etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件**
+#### 7. 修改"etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件
 ```shell
 [root@local ~]# vi /etc/pam.d/system-auth && vi /etc/pam.d/password-auth
 auth        sufficient    pam_ldap.so use_first_pass                  # 在auth项的-2行插入
