@@ -404,13 +404,13 @@ root@local:~# apt install sudo-ldap
 
 
 ## 七、用户管理
-#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录OpenLDAP，连接信息如下
+#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录openldap，连接信息如下
 ![](./img/ldap-5.jpg)
 
 #### 2. 管理界面如下
 ![](./img/ldap-6.jpg)
 
-#### 3. 可以根据业务需求新建一个OU，例如："Users"
+#### 3. 可以根据业务需求新建OU，例如："Users"
 ![](./img/ldap-7.jpg)
 ![](./img/ldap-8.jpg)
 
@@ -435,7 +435,7 @@ root@local:~# apt install sudo-ldap
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
 ![](./img/ldap-18.jpg)
 
-#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录强制修改密码
+#### 10. 使用"user1"用户登录到已添加openldap客户端的服务器，第一次登录会强制修改密码
 ![](./img/ldap-19.jpg)
 
 #### 11. 再次登录成功
@@ -475,7 +475,7 @@ root@local:~# apt install sudo-ldap
 -rw-r--r-- 1 root root 5.2K Mar  2 01:43 openldap-20220302.ldif
 ```
 
-#### 2. 在新服务器安装OpenLDAP，删除默认mdb文件
+#### 2. 在新服务器安装openldap，删除默认mdb文件
 ```shell
 [root@ldap ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm
 [root@ldap ~]# cd /usr/local/openldap/var/openldap-data
