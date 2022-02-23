@@ -243,7 +243,7 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
 
 
 ## 五、基于CentOS7的客户端部署
-#### 1. 安装OpenLDAP客户端工具
+#### 1. 安装OpenLDAP客户端
 ```shell
 [root@local ~]# yum install openldap-clients
 ```
@@ -355,8 +355,8 @@ session     optional      pam_mkhomedir.so
 ```
 
 
-## 六、基于Ubuntu16.04、Ubuntu18.04、Ubuntu20.04、Debian9、Debian10的客户端部署
-#### 1. 安装OpenLDAP客户端工具
+## 六、基于Ubuntu18.04、Ubuntu20.04、Debian9、Debian10的客户端部署
+#### 1. 安装OpenLDAP客户端
 ```shell
 root@local:~# apt install ldap-utils
 ```
