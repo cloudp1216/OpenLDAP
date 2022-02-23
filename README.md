@@ -177,7 +177,7 @@ Closing DB...
 - 修改hosts文件，添加"127.0.0.1   ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
 - 默认域为"dc=example,dc=local"
 - 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"
-- 默认密码复杂度为："0|01010101" （密码需要包含：1位大写字母、1位小写字母、1位数字、1位特殊字符）
+- 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）
 - 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"
 - 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
@@ -205,7 +205,7 @@ New password:                                       # 新密码
 Re-enter new password:                              # 重复新密码
 {SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq              # 加密后的密码
 
-[root@local ~]# vim /usr/local/openldap/etc/openldap/slapd.conf   # 修改配置文件
+[root@local ~]# vi /usr/local/openldap/etc/openldap/slapd.conf    # 修改配置文件
 rootdn      "cn=admin,dc=example,dc=local"
 rootpw      {SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq                # 将rootpw值进行替换
 
@@ -214,9 +214,9 @@ Stopping OpenLDAP (pid: 26939)   [ OK ]
 Starting OpenLDAP (pid: 27019)   [ OK ]
 ```
 
-#### 6. 调整密码复杂度
+#### 6. 调整密码复杂度（按需调整）
 ```shell
-[root@local ~]# cat /usr/local/openldap/etc/openldap/pqparams.dat 
+[root@local ~]# vi /usr/local/openldap/etc/openldap/pqparams.dat 
 # Data format: 0|UULLDDSS@)..
 # Or         : 1|UULLDDSS@)..
 #
