@@ -177,12 +177,12 @@ Closing DB...
 - 修改hosts文件，添加"127.0.0.1   ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
 - 默认域为"dc=example,dc=local"
 - 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"
-- 默认密码复杂度为：0|01010101 （密码需要包含：1位大写字母、1位小写字母、1位数字、1位特殊字符）
+- 默认密码复杂度为："0|01010101" （密码需要包含：1位大写字母、1位小写字母、1位数字、1位特殊字符）
 - 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"
 - 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
 &emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
-&emsp;&emsp; 管理员密码：admin  &emsp; （加密存储）</p>
+&emsp;&emsp; 管理员密码：admin  &emsp;&emsp; （加密存储）</p>
 
 #### 4. OpenLDAP服务管理
 ```shell
@@ -246,7 +246,7 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
 [root@local ~]# yum install openldap-clients
 ```
 
-#### 2. 复制服务端证书“/usr/local/openldap/etc/openldap/certs/ca.pem”到客户端“/etc/openldap/certs/”目录下
+#### 2. 复制服务端证书"/usr/local/openldap/etc/openldap/certs/ca.pem"到客户端"/etc/openldap/certs/"目录下
 ```shell
 [root@local ~]# ls -lh /etc/openldap/certs/ca.pem 
 -rw-r--r-- 1 root root 1.3K Jan 13  2022 /etc/openldap/certs/ca.pem
@@ -292,7 +292,7 @@ tls_cacertfile /etc/openldap/certs/ca.pem
 [root@local ~]# systemctl enable nslcd
 ```
 
-#### 6. 修改“/etc/nsswitch.conf”文件
+#### 6. 修改"/etc/nsswitch.conf"文件
 ```shell
 [root@local ~]# cp /etc/nsswitch.conf /etc/nsswitch.conf.old
 [root@local ~]# vi /etc/nsswitch.conf       # 修以下三项内容为
@@ -304,7 +304,7 @@ group:      files ldap
 sudoers:    files ldap                      # 在最后追加，sudoers需要此项
 ```
 
-#### 7. 修改“etc/pam.d/system-auth”和“/etc/pam.d/password-auth”文件**
+#### 7. 修改"etc/pam.d/system-auth"和"/etc/pam.d/password-auth"文件**
 ```shell
 [root@local ~]# vi /etc/pam.d/system-auth && vi /etc/pam.d/password-auth
 auth        sufficient    pam_ldap.so use_first_pass                  # 在auth项的-2行插入
@@ -314,7 +314,7 @@ session     optional      pam_ldap.so                                 # 在sessi
 session     optional      pam_mkhomedir.so                            # 在session项的-1行插入，用户第一次登录会自动创建home
 ```
 
-#### 8. 备份“/etc/sudo-ldap.conf”文件并创建到“/etc/openldap/ldap.conf”的链接
+#### 8. 备份"/etc/sudo-ldap.conf"文件并创建到"/etc/openldap/ldap.conf"的链接
 ```shell
 [root@local ~]# mv /etc/sudo-ldap.conf /etc/sudo-ldap.conf.old
 [root@local ~]# ln -sv /etc/openldap/ldap.conf /etc/sudo-ldap.conf
@@ -338,6 +338,7 @@ session     optional      pam_mkhomedir.so                            # 在sessi
 -rw-r--r-- 1 root root 1159 10月  8 17:03 /etc/ssl/certs/ca.crt
 
 ```
+
 
 **3、修改openldap客户端配置文件**
 ```shell
