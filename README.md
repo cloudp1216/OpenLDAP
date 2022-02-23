@@ -35,14 +35,14 @@ http://www.openldap.org/software/download/OpenLDAP/openldap-release/ </p>
 
 #### 2. 安装相关依赖
 ```shell
-[root@local ~]# yum install -y libtool-ltdl libtool-ltdl-devel openssl-devel
+[root@ldap ~]# yum install -y libtool-ltdl libtool-ltdl-devel openssl-devel
 ```
 
 #### 3. 编译安装OpenLDAP
 ```shell
-[root@local ~]# tar zxf openldap-2.4.44.tgz
-[root@local ~]# cd openldap-2.4.44
-[root@local openldap-2.4.44]# ./configure --prefix=/usr/local/openldap \
+[root@ldap ~]# tar zxf openldap-2.4.44.tgz
+[root@ldap ~]# cd openldap-2.4.44
+[root@ldap openldap-2.4.44]# ./configure --prefix=/usr/local/openldap \
     --enable-bdb=no \
     --enable-hdb=no \
     --enable-ldap=yes \
@@ -61,9 +61,9 @@ http://www.openldap.org/software/download/OpenLDAP/openldap-release/ </p>
     --enable-crypt \
     --with-tls \
 
-[root@local openldap-2.4.44]# make depend
-[root@local openldap-2.4.44]# make 
-[root@local openldap-2.4.44]# make install
+[root@ldap openldap-2.4.44]# make depend
+[root@ldap openldap-2.4.44]# make 
+[root@ldap openldap-2.4.44]# make install
 ```
 
 
@@ -74,15 +74,15 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 #### 2. 编译安装扩展插件
 ```shell
-[root@local ~]# tar zxf ameddeb-pqchecker-e013630479bc.tar.gz
-[root@local ~]# cd ameddeb-pqchecker-e013630479bc
-[root@local ameddeb-pqchecker-e013630479bc]# ./configure \
+[root@ldap ~]# tar zxf ameddeb-pqchecker-e013630479bc.tar.gz
+[root@ldap ~]# cd ameddeb-pqchecker-e013630479bc
+[root@ldap ameddeb-pqchecker-e013630479bc]# ./configure \
     LDAPSRC=/root/openldap/openldap-2.4.44 \
     JAVAHOME=/usr/local/jdk1.8.0_251 \
     libdir=/usr/local/openldap/libexec/openldap \
     PARAMDIR=/usr/local/openldap/etc/openldap \
-[root@local ameddeb-pqchecker-e013630479bc]# make
-[root@local ameddeb-pqchecker-e013630479bc]# make install
+[root@ldap ameddeb-pqchecker-e013630479bc]# make
+[root@ldap ameddeb-pqchecker-e013630479bc]# make install
 ```
 
 
@@ -92,7 +92,7 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 #### 2. 安装OpenLDAP服务端
 ```shell
-[root@local ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm 
+[root@ldap ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm 
 Preparing...                          ################################# [100%]
 Updating / installing...
    1:OpenLDAP-2.4.44-10.el7           ################################# [100%]
@@ -174,7 +174,7 @@ Closing DB...
 
 #### 3. OpenLDAP自动初始化（使用rpm包安装完OpenLDAP后会自动进行数据初始化，无需操作）
 - 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下
-- 修改hosts文件，添加"127.0.0.1   ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
+- 修改hosts文件，添加"127.0.0.1 &emsp; ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
 - 默认域为"dc=example,dc=local"
 - 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"
 - 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）
@@ -186,7 +186,7 @@ Closing DB...
 
 #### 4. OpenLDAP服务管理
 ```shell
-[root@local ~]# ldapctl
+[root@ldap ~]# ldapctl
 Usage: /usr/sbin/ldapctl {start|stop|status|restart|check|pass|cat}
 
 # ldapctl start             # 启动slapd服务
@@ -200,23 +200,23 @@ Usage: /usr/sbin/ldapctl {start|stop|status|restart|check|pass|cat}
 
 #### 5. 修改OpenLDAP管理员密码
 ```shell
-[root@local ~]# ldapctl pass
+[root@ldap ~]# ldapctl pass
 New password:                                       # 新密码
 Re-enter new password:                              # 重复新密码
 {SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq              # 加密后的密码
 
-[root@local ~]# vi /usr/local/openldap/etc/openldap/slapd.conf    # 修改配置文件
+[root@ldap ~]# vi /usr/local/openldap/etc/openldap/slapd.conf     # 修改配置文件
 rootdn      "cn=admin,dc=example,dc=local"
 rootpw      {SSHA}OpdOgZEAgrBb4olpbSwSOTPEW7Q/4Myq                # 将rootpw值进行替换
 
-[root@local ~]# ldapctl restart                                   # 重启openldap服务
+[root@ldap ~]# ldapctl restart                                    # 重启openldap服务
 Stopping OpenLDAP (pid: 26939)   [ OK ]
 Starting OpenLDAP (pid: 27019)   [ OK ]
 ```
 
 #### 6. 调整密码复杂度（按需调整）
 ```shell
-[root@local ~]# vi /usr/local/openldap/etc/openldap/pqparams.dat 
+[root@ldap ~]# vi /usr/local/openldap/etc/openldap/pqparams.dat 
 # Data format: 0|UULLDDSS@)..
 # Or         : 1|UULLDDSS@)..
 #
@@ -254,7 +254,7 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
 
 #### 3. 修改openldap客户端配置文件
 ```shell
-[root@local ~]# vi /etc/openldap/ldap.conf   # 追加一下内容
+[root@local ~]# vi /etc/openldap/ldap.conf   # 追加以下内容
 URI ldaps://ldaps.example.local
 BASE dc=example,dc=local
 TLS_CACERT /etc/openldap/certs/ca.pem
