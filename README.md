@@ -534,7 +534,7 @@ added: "cn=defaults,ou=sudoers,dc=example,dc=local" (00000005)
 added: "ou=Users,dc=example,dc=local" (00000006)
 added: "cn=user1,ou=Users,dc=example,dc=local" (00000007)
 added: "uid=user1,ou=Users,dc=example,dc=local" (00000008)
-added: "cn=uuser1,ou=sudoers,dc=example,dc=local" (00000009)
+added: "cn=user1,ou=sudoers,dc=example,dc=local" (00000009)
 _#################### 100.00% eta   none elapsed            none fast!         
 Closing DB...
 ```
