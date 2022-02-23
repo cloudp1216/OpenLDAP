@@ -467,7 +467,7 @@ root@local:~# apt install sudo-ldap
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
 ![](./img/ldap-18.jpg)
 
-#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录会强制修改密码
+#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录会强制修改密码（注意新密码复杂度要求）
 ![](./img/ldap-19.jpg)
 
 #### 11. 再次登录成功
