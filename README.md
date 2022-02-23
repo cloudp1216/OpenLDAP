@@ -87,7 +87,7 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 
 ## 四、使用rpm包安装OpenLDAP
-#### 1. 定制rpm包(基于以上源码参数编译打包，包括了一些定制的配置，安装部署更加便捷)
+#### 1. 使用定制rpm包（基于以上源码参数编译打包，包括了一些定制的配置，安装部署更加便捷）
 [OpenLDAP-2.4.44-10.el7.x86_64.rpm](./Software/OpenLDAP-2.4.44-10.el7.x86_64.rpm)
 
 #### 2. 安装OpenLDAP服务端
