@@ -404,13 +404,13 @@ root@local:~# apt install sudo-ldap
 
 
 ## 七、用户管理
-#### 1. 使用"[LdapAdmin](http://www.ldapadmin.org/download/index.html)"登录OpenLDAP，连接信息如下
+#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录OpenLDAP，连接信息如下
 ![](./img/ldap-5.jpg)
 
 #### 2. 管理界面如下
 ![](./img/ldap-6.jpg)
 
-#### 3. 可以根据业务需求新建一个OU"Users"
+#### 3. 可以根据业务需求新建一个OU，例如："Users"
 ![](./img/ldap-7.jpg)
 ![](./img/ldap-8.jpg)
 
@@ -423,13 +423,13 @@ root@local:~# apt install sudo-ldap
 
 #### 6. 新建"user1"用户
 ![](./img/ldap-12.jpg)
-![](./img/ldap-13.jpg) ![](./img/ldap-14.jpg)
+![](./img/ldap-13.jpg) &emsp; ![](./img/ldap-14.jpg)
 
 #### 7. 调整"user1"用户"uid"（此处调整为5000）
 ![](./img/ldap-15.jpg)
 
 #### 8. 为用户设置初始密码
-![](./img/ldap-16.jpg)
+![](./img/ldap-16.jpg) </p>
 ![](./img/ldap-17.jpg)
 
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
@@ -441,5 +441,68 @@ root@local:~# apt install sudo-ldap
 #### 11. 再次登录成功
 ![](./img/ldap-20.jpg)
 
+#### 附：用户的shadowAccount对象属性：
+- shadowLastChange：密码从1970年1月1日开始, 到最近一次修改, 一共间隔了多少天. 比如这里指定成16967就表示2016年6月15日. 也可以直接获取当天的日期,方法为:在系统里useradd一个用户,查看/etc/shadow中该用户的第三个值, 即是该值. 该值如果设置成0, 则表示下次登陆将强制修改密码, 用户修改密码成功以后, 该值将发生对应的变化;
+- shadowMin：密码从shadowLastChange指定的日期开始, 到多少天以后才能再次修改密码, 防止某些人天天没事就修改密码, 此值设置成0表示不限制;
+- shadowMax：密码从shadowLastChange指定的日期开始, 到多少天以后过期(即多少天后必须更改密码);
+- shadowInactive：密码过期以后还可以登陆多少天(每次登陆都会要求更改密码), 如果超过此值指定的天数, 下次登陆时会提示"Your account has expired; please contact your system administrator";
+- shadowWarning：提前多少天开始警告用户密码将会过期;
+- shadowExpire：密码从1970年1月1日开始, 多少天以后将会过期;
+- shadowFlag：暂时无用
+
+
+## 八、用户sudo管理
+#### 1. openldap用户登录系统后默认为普通用户，可以在"ou=sudoers"下为用户分配sudo权限（和/etc/sudoers配置类似）
+![](./img/ldap-21.jpg)
+![](./img/ldap-22.jpg)
+
+#### 2. 查看"user1"用户是否具有root权限
+![](./img/ldap-23.jpg)
+
+#### 3. 附：sudo属性定义
+- sudoCommand：可执行的二进制命令
+- sudoHost：可在哪些机器上执行sudoCommand定义的命令
+- sudoUser：限制哪些用户具有sudo权限
+- sudoOption：定义超过自身权限及切换至其他用户时，是否需要输入当前用户密码
+- sudoRunAs：可切换到定义的用户身份下执行bash命令
+
+
+## 九、OpenLDAP数据备份与恢复
+#### 1. openldap数据备份
+```shell
+[root@ldap ~]# ldapctl cat > openldap-`date +%"Y%m%d"`.ldif
+[root@ldap ~]# ls -lh openldap-20220302.ldif 
+-rw-r--r-- 1 root root 5.2K Mar  2 01:43 openldap-20220302.ldif
+```
+
+#### 2. 在新服务器安装OpenLDAP，删除默认mdb文件
+```shell
+[root@ldap ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm
+[root@ldap ~]# cd /usr/local/openldap/var/openldap-data
+[root@ldap ~]# rm -fr *.mdb
+```
+
+#### 3. 重启openldap服务
+```shell
+[root@ldap ~]# ldapctl restart
+Stopping OpenLDAP (pid: 82108)   [ OK ]
+Starting OpenLDAP (pid: 98476)   [ OK ]
+```
+
+#### 4. 恢复备份数据
+```shell
+[root@ldap ~]# /usr/local/openldap/sbin/slapadd -v -l openldap-20220302.ldif 
+added: "dc=example,dc=local" (00000001)
+added: "ou=ppolicy,dc=example,dc=local" (00000002)
+added: "cn=defaults,ou=ppolicy,dc=example,dc=local" (00000003)
+added: "ou=sudoers,dc=example,dc=local" (00000004)
+added: "cn=defaults,ou=sudoers,dc=example,dc=local" (00000005)
+added: "ou=Users,dc=example,dc=local" (00000006)
+added: "cn=user1,ou=Users,dc=example,dc=local" (00000007)
+added: "uid=user1,ou=Users,dc=example,dc=local" (00000008)
+added: "cn=uuser1,ou=sudoers,dc=example,dc=local" (00000009)
+_#################### 100.00% eta   none elapsed            none fast!         
+Closing DB...
+```
 
 
