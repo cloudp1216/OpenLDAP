@@ -181,7 +181,7 @@ Closing DB...
 - 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"（密码最小长度为8位）；
 - 默认密码复杂度为："0|00010101" （密码需要包含：1位小写字母、1位数字、1位特殊字符）；
 - 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"；
-- 服务启动为ldaps，监听636端口（如需要监听389端口请手动执行命令：`/usr/local/openldap/sbin/slapd -h ldap:///` ）；
+- 服务启动为ldaps，监听636端口（如需要监听389端口请手动执行命令：`/usr/local/openldap/sbin/slapd` ）；
 - 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
 &emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
 &emsp;&emsp; 管理员密码：admin  &emsp;&emsp; （加密存储）</p>
