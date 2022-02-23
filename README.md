@@ -252,7 +252,7 @@ Starting OpenLDAP (pid: 27019)   [ OK ]
 -rw-r--r-- 1 root root 1.3K Jan 13  2022 /etc/openldap/certs/ca.pem
 ```
 
-#### 3. 修改openldap客户端配置文件
+#### 3. 修改OpenLDAP客户端配置文件
 ```shell
 [root@local ~]# vi /etc/openldap/ldap.conf   # 追加以下内容
 URI ldaps://ldaps.example.local
@@ -322,7 +322,7 @@ session     optional      pam_mkhomedir.so                            # 在sessi
 
 
 ## 六、基于Ubuntu16、Ubuntu18、Debian9、Debian10的客户端安装
-#### 1. 安装openldap客户端工具
+#### 1. 安装OpenLDAP客户端工具
 ```shell
 root@local:~# apt install ldap-utils
 ```
@@ -334,7 +334,7 @@ root@local:~# ls -lh /etc/ldap/certs/ca.pem
 -rw-r--r-- 1 root root 1.3K Jan 12 22:18 /etc/ldap/certs/ca.pem
 ```
 
-#### 3. 修改openldap客户端配置文件
+#### 3. 修改OpenLDAP客户端配置文件
 ```shell
 root@local:~# vi /etc/ldap/ldap.conf
 URI ldaps://ldaps.example.local
@@ -404,7 +404,7 @@ root@local:~# apt install sudo-ldap
 
 
 ## 七、用户管理
-#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录openldap，连接信息如下
+#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录OpenLDAP，连接信息如下
 ![](./img/ldap-5.jpg)
 
 #### 2. 管理界面如下
@@ -435,7 +435,7 @@ root@local:~# apt install sudo-ldap
 #### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
 ![](./img/ldap-18.jpg)
 
-#### 10. 使用"user1"用户登录到已添加openldap客户端的服务器，第一次登录会强制修改密码
+#### 10. 使用"user1"用户登录到已添加OpenLDAP客户端的服务器，第一次登录会强制修改密码
 ![](./img/ldap-19.jpg)
 
 #### 11. 再次登录成功
@@ -452,7 +452,7 @@ root@local:~# apt install sudo-ldap
 
 
 ## 八、用户sudo管理
-#### 1. openldap用户登录系统后默认为普通用户，可以在"ou=sudoers"下为用户分配sudo权限（和/etc/sudoers配置类似）
+#### 1. OpenLDAP用户登录系统后默认为普通用户，可以在"ou=sudoers"下为用户分配sudo权限（和/etc/sudoers配置类似）
 ![](./img/ldap-21.jpg)
 ![](./img/ldap-22.jpg)
 
@@ -468,21 +468,21 @@ root@local:~# apt install sudo-ldap
 
 
 ## 九、OpenLDAP数据备份与恢复
-#### 1. openldap数据备份
+#### 1. OpenLDAP数据备份
 ```shell
 [root@ldap ~]# ldapctl cat > openldap-`date +%"Y%m%d"`.ldif
 [root@ldap ~]# ls -lh openldap-20220302.ldif 
 -rw-r--r-- 1 root root 5.2K Mar  2 01:43 openldap-20220302.ldif
 ```
 
-#### 2. 在新服务器安装openldap，删除默认mdb文件
+#### 2. 在新服务器安装OpenLDAP，删除默认mdb文件
 ```shell
 [root@ldap ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm
 [root@ldap ~]# cd /usr/local/openldap/var/openldap-data
 [root@ldap ~]# rm -fr *.mdb
 ```
 
-#### 3. 重启openldap服务
+#### 3. 重启OpenLDAP服务
 ```shell
 [root@ldap ~]# ldapctl restart
 Stopping OpenLDAP (pid: 82108)   [ OK ]
