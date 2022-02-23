@@ -321,50 +321,54 @@ session     optional      pam_mkhomedir.so                            # 在sessi
 ```
 
 
-##
-
-### 三、基于Ubuntu18、Ubuntu16、Debian9
-**1、安装openldap客户端工具**
+## 六、基于Ubuntu16、Ubuntu18、Debian9、Debian10的客户端安装
+#### 1. 安装openldap客户端工具
 ```shell
-# apt install ldap-utils
+root@local:~# apt install ldap-utils
 ```
 
-**2、复制服务端证书“/usr/local/openldap/etc/openldap/cert/ca.crt”到客户端“/etc/ssl/certs/”目录下**
+#### 2. 复制服务端证书"/usr/local/openldap/etc/openldap/cert/ca.crt"到客户端"/etc/ssl/certs/"目录下
 ```shell
-# [ ! -f /etc/ssl/certs/ca-certificates.crt ] && apt install ca-certificates
-                                                                  # 安装依赖，如果不存在
-
-# ls -l /etc/ssl/certs/ca.crt                                     # 复制ca.crt文件到certs目录下
--rw-r--r-- 1 root root 1159 10月  8 17:03 /etc/ssl/certs/ca.crt
-
+root@local:~# mkdir -p /etc/ldap/certs
+root@local:~# ls -lh /etc/ldap/certs/ca.pem 
+-rw-r--r-- 1 root root 1.3K Jan 12 22:18 /etc/ldap/certs/ca.pem
 ```
 
-
-**3、修改openldap客户端配置文件**
+#### 3. 修改openldap客户端配置文件
 ```shell
-# vim /etc/ldap/ldap.conf
-URI ldaps://ldap.speech.local
-BASE dc=speech,dc=local
-TLS_CACERT /etc/ssl/certs/ca.crt
+root@local:~# vi /etc/ldap/ldap.conf
+URI ldaps://ldaps.example.local
+BASE dc=example,dc=local
+TLS_CACERT /etc/ldap/certs/ca.pem
 TLS_REQCERT allow
-SUDOERS_BASE ou=sudoers,dc=speech,dc=local
+SUDOERS_BASE ou=sudoers,dc=example,dc=local
 ```
 
-**4、使用命令`ldapsearch -x`能够查询到相关服务端信息，或使用以下命令验证用户名密码（如果该用户存在）**
+#### 4、使用命令`ldapsearch -x`能够查询到相关服务端信息
 ```shell
-# ldapwhoami -x -D "uid=user1,ou=G01,dc=speech,dc=local" -W
-Enter LDAP Password: 
-dn:uid=user1,ou=G01,dc=speech,dc=local
+root@local:~# ldapsearch -x
+# extended LDIF
+#
+# LDAPv3
+# base <dc=example,dc=local> (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# example.local
+dn: dc=example,dc=local
+...
 ```
 
-**5、安装软件包libpam-ldapd和libnss-ldapd，安装完后修改“/etc/nslcd.conf”指定证书文件位置并重启服务**
+#### 5. 安装软件包libpam-ldapd和libnss-ldapd，安装完后修改"/etc/nslcd.conf"指定证书文件位置并重启服务
 ```shell
-# apt install libpam-ldapd libnss-ldapd
+root@local:~# apt install libpam-ldapd libnss-ldapd
 ```
-![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu1.jpg)
-![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu2.jpg)
-![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu3.jpg)
-![](https://github.com/icloudp/LDAP/blob/master/image/ubuntu4.jpg)
+![](./img/ldap-1.jpg)
+![](./img/ldap-2.jpg)
+![](./img/ldap-3.jpg)
+![](./img/ldap-4.jpg)
+
 
 ```shell
 # vim /etc/nslcd.conf
