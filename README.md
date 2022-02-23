@@ -92,7 +92,7 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 #### 2. 安装OpenLDAP服务端
 ```shell
-[root@ldap ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm 
+[root@local ~]# rpm -ivh OpenLDAP-2.4.44-10.el7.x86_64.rpm 
 Preparing...                          ################################# [100%]
 Updating / installing...
    1:OpenLDAP-2.4.44-10.el7           ################################# [100%]
@@ -100,35 +100,35 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number:
-            3f:d0:7b:83:bb:97:f5:ba:c3:18:df:ce:fe:d9:7e:f8:21:dd:52:7b
+            21:b3:b6:ef:03:c5:39:18:8f:16:db:55:7e:ea:c8:79:66:fa:6d:0c
     Signature Algorithm: sha256WithRSAEncryption
-        Issuer: C=CN, ST=BeiJing, L=BeiJing, O=LDAP, CN=example.local
+        Issuer: C=CN, ST=China, L=China, O=OpenLDAP, CN=example.local
         Validity
-            Not Before: Jan 13 03:13:00 2022 GMT
-            Not After : Feb 12 03:13:00 2022 GMT
+            Not Before: Mar  1 12:10:00 2022 GMT
+            Not After : Mar 31 12:10:00 2022 GMT
         Subject: CN=example.local
         Subject Public Key Info:
             Public Key Algorithm: rsaEncryption
                 Public-Key: (2048 bit)
                 Modulus:
-                    00:ba:eb:fd:93:e0:3d:a3:71:55:8b:ec:a9:2d:3b:
-                    15:57:ea:63:17:98:96:1b:64:7a:6f:92:f0:3a:ce:
-                    dd:a7:47:51:2c:c4:bf:58:64:10:14:a3:3d:3d:47:
-                    92:23:20:85:52:c2:10:fc:6e:0a:94:28:2b:12:08:
-                    e9:fc:fa:09:79:50:0e:55:98:35:fd:f2:6d:08:1f:
-                    34:b1:7f:e8:76:c5:50:c8:96:e7:a7:31:6e:f4:c1:
-                    a7:14:c8:d5:79:e1:52:5e:cc:f7:88:13:ff:0b:68:
-                    f9:ab:07:fc:c8:56:3b:ad:40:0d:f5:36:01:e0:83:
-                    92:49:0e:c7:4e:ef:bc:e3:39:74:a5:3b:56:9d:e1:
-                    8c:2c:e4:31:15:d3:80:51:35:90:76:74:0f:39:7b:
-                    c7:bd:54:62:6b:68:08:db:0d:cf:4f:2d:21:86:e3:
-                    e2:db:2c:99:a4:f9:ee:25:93:96:73:45:c0:f9:6b:
-                    1e:58:88:25:53:3f:88:2f:34:89:99:5b:32:f8:b8:
-                    56:e8:bf:8a:20:39:c2:06:86:94:e5:23:21:c6:1c:
-                    73:cf:a2:65:37:3c:10:d2:8b:1e:c2:bd:f4:fb:c7:
-                    05:ba:f5:1b:ac:f7:ea:6e:1e:ce:67:53:2a:e5:9e:
-                    ac:58:29:21:84:c0:9f:ac:4d:cb:d6:db:9d:d9:e7:
-                    8f:bb
+                    00:b7:90:05:d9:5b:dd:34:6e:78:7d:02:38:e9:1a:
+                    e1:c5:67:e7:ec:93:5b:dc:04:5b:fb:e0:82:ca:52:
+                    ad:eb:42:81:09:af:16:4a:02:c6:49:df:0e:af:66:
+                    41:ae:75:0a:b4:05:fa:6b:0e:69:d7:f0:c8:3f:c5:
+                    a4:5f:ab:4f:a1:5c:7b:35:dd:6e:e2:2e:ed:f7:9c:
+                    14:21:03:fd:2e:90:d1:25:c4:cf:06:42:db:18:c3:
+                    47:41:ab:19:da:49:f1:25:16:ca:a2:15:51:5b:60:
+                    6a:3a:03:6d:28:4c:29:7c:f2:fe:2a:26:71:27:2f:
+                    59:bf:66:35:d9:f5:03:10:ac:08:b4:a6:dc:e0:13:
+                    15:65:e4:b6:d3:38:d3:3b:40:11:12:c8:eb:2c:90:
+                    79:2a:3e:c5:f7:0b:4b:8e:2c:49:75:c4:db:80:aa:
+                    5e:4e:18:35:f1:80:86:bb:2a:87:14:52:7c:ab:94:
+                    a6:3c:eb:41:24:9d:f3:68:b8:3e:0e:9d:a5:58:85:
+                    78:f1:07:b8:4a:a5:5e:11:e4:b8:06:9d:37:9c:5b:
+                    bd:31:9b:8b:e2:d8:c7:dd:bc:ae:cf:2a:df:17:3d:
+                    97:9f:fb:8a:07:b7:86:b4:58:93:75:a5:0f:0c:fd:
+                    28:73:fa:e6:1a:45:a1:98:49:c4:b2:5b:dd:8e:d7:
+                    ba:41
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
             X509v3 Key Usage: critical
@@ -138,30 +138,30 @@ Certificate:
             X509v3 Basic Constraints: critical
                 CA:FALSE
             X509v3 Subject Key Identifier: 
-                AC:11:61:DC:AB:47:94:1B:B5:1F:58:C9:25:FF:4C:36:47:F7:40:01
+                D0:8E:CD:D9:0A:97:E6:0B:67:13:C9:0E:5B:54:24:6F:14:18:ED:18
             X509v3 Authority Key Identifier: 
-                keyid:AB:25:45:46:2F:AB:F1:AD:68:D4:49:01:2A:0A:EE:FA:3F:93:19:F4
+                keyid:99:8D:8D:D5:5A:CC:D7:EE:34:B0:05:89:51:39:73:23:87:85:54:71
 
             X509v3 Subject Alternative Name: 
                 DNS:ldaps.example.local
     Signature Algorithm: sha256WithRSAEncryption
-         05:0b:ff:35:f4:71:43:eb:92:16:71:96:a0:82:a8:68:62:d2:
-         66:fd:fe:48:ed:30:f0:da:e8:48:59:03:ca:bd:1e:fd:01:7e:
-         0f:39:1c:d4:fb:67:a2:fd:e7:39:50:4f:31:c0:46:1a:da:d5:
-         6f:b0:15:ef:6c:34:19:b9:de:b8:e8:81:ce:8a:04:4b:b5:12:
-         49:f7:75:42:94:95:1a:82:8c:b4:98:85:9b:a6:3f:43:79:a0:
-         73:ab:b4:bd:ff:cc:85:fb:22:54:d0:87:57:87:4c:6a:36:7c:
-         f4:85:d4:65:63:f6:08:ec:da:89:e0:6b:2f:b1:61:73:c8:75:
-         23:c2:28:6f:a7:df:54:7a:c8:e3:f1:ca:87:65:cc:e6:63:eb:
-         1f:0b:9f:4c:85:8f:05:7c:1b:f7:30:b3:c9:48:96:87:a2:30:
-         d5:7e:f1:7d:6c:9c:1a:af:38:2c:12:0e:7c:fb:73:42:43:18:
-         34:0d:df:84:6c:c3:0c:b2:5c:fe:e0:a5:83:6d:22:31:71:d9:
-         00:bf:48:58:0d:04:e4:b4:a0:09:0b:d9:71:a2:6a:ba:56:0e:
-         fe:d5:63:d3:b8:25:ce:73:53:a1:55:7b:39:c8:65:38:60:1d:
-         f9:e7:78:a2:57:e2:97:70:0d:4a:e6:8f:7d:44:e5:02:f8:ee:
-         7b:e0:2a:41
+         58:25:b6:1e:5e:0c:93:e6:5f:d4:01:77:84:69:77:f7:e4:c3:
+         7c:ad:ee:b3:5c:c7:06:a1:c6:49:ac:4e:84:eb:60:fa:bb:f0:
+         0e:10:c6:e5:c5:e2:bc:47:95:d6:cd:90:05:5d:4e:a0:0e:d0:
+         44:12:5a:89:a5:cd:6e:7a:a2:7b:2a:2a:c7:30:cc:d3:1c:67:
+         a9:c1:08:a6:ce:1e:36:37:51:74:91:bd:d6:d3:46:4a:3b:2e:
+         53:d3:af:3b:2c:eb:7c:a1:85:f9:da:a8:65:5a:52:2d:32:41:
+         0c:b7:66:e0:29:86:e7:bd:be:34:4c:23:68:dd:f7:2b:11:72:
+         27:ac:0c:aa:63:4b:f2:39:9e:4f:1d:fb:78:6a:fb:23:7a:5b:
+         b5:c6:ea:5e:6d:ca:1b:f3:cb:b8:7b:45:3b:99:dd:3b:0f:2b:
+         cd:13:e5:13:b0:3f:38:a8:3d:d3:e1:d9:87:b2:05:1e:27:4c:
+         d5:4b:e4:aa:b0:8d:30:2f:6f:7e:e4:82:d0:9d:a6:59:fa:9b:
+         c0:8b:bc:42:fc:ba:72:29:5e:00:8e:a9:85:98:80:03:fb:f9:
+         49:ca:34:5b:42:26:71:82:a0:c0:c7:ef:ff:b0:d9:08:56:d0:
+         9d:15:25:11:78:6f:ff:02:b5:6c:38:c9:e5:0f:ad:7c:36:ff:
+         64:cc:6c:06
 
-Starting OpenLDAP (pid: 51963)   [ OK ]
+Starting OpenLDAP (pid: 82108)   [ OK ]
 
 added: "dc=example,dc=local" (00000001)
 added: "ou=ppolicy,dc=example,dc=local" (00000002)
@@ -327,7 +327,7 @@ session     optional      pam_mkhomedir.so                            # 在sessi
 root@local:~# apt install ldap-utils
 ```
 
-#### 2. 复制服务端证书"/usr/local/openldap/etc/openldap/cert/ca.crt"到客户端"/etc/ssl/certs/"目录下
+#### 2. 复制服务端证书"/usr/local/openldap/etc/openldap/cert/ca.pem"到客户端"/etc/ldap/certs/"目录下
 ```shell
 root@local:~# mkdir -p /etc/ldap/certs
 root@local:~# ls -lh /etc/ldap/certs/ca.pem 
@@ -360,7 +360,7 @@ dn: dc=example,dc=local
 ...
 ```
 
-#### 5. 安装软件包libpam-ldapd和libnss-ldapd，安装完后修改"/etc/nslcd.conf"指定证书文件位置并重启服务
+#### 5. 安装软件包"libpam-ldapd"和"libnss-ldapd"，安装完后修改"/etc/nslcd.conf"指定证书文件位置并重启服务
 ```shell
 root@local:~# apt install libpam-ldapd libnss-ldapd
 ```
