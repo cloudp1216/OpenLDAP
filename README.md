@@ -38,7 +38,7 @@ http://www.openldap.org/software/download/OpenLDAP/openldap-release/ </p>
 [root@ldap ~]# yum install -y libtool-ltdl libtool-ltdl-devel openssl-devel
 ```
 
-#### 3. 编译安装OpenLDAP
+#### 3. 编译安装OpenLDAP（基于CentOS7）
 ```shell
 [root@ldap ~]# tar zxf openldap-2.4.44.tgz
 [root@ldap ~]# cd openldap-2.4.44
@@ -87,7 +87,7 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 
 ## 四、使用rpm包安装OpenLDAP
-#### 1. 使用定制rpm包安装（基于以上源码参数编译打包，包括了一些定制的配置，安装部署非常便捷）
+#### 1. 使用定制rpm包安装（基于CentOS7，使用以上源码参数编译打包，包括了一些定制的配置，安装部署非常便捷）
 [OpenLDAP-2.4.44-10.el7.x86_64.rpm](./Software/OpenLDAP-2.4.44-10.el7.x86_64.rpm)
 
 #### 2. 安装OpenLDAP服务端
