@@ -403,3 +403,37 @@ root@local:~# apt install sudo-ldap
 ```
 
 
+## 七、用户管理
+#### 1. 使用"[LdapAdmin](http://www.ldapadmin.org/download/ldapadmin.html)"登录OpenLDAP，连接信息如下
+![](./img/ldap-5.jpg)
+
+#### 2. 管理界面如下
+![](./img/ldap-6.jpg)
+
+#### 3. 可以根据业务需求新建一个OU"Users"
+![](./img/ldap-7.jpg)
+![](./img/ldap-8.jpg)
+
+#### 4. 在OU下新建一个用户"user1"，先创建"user1"用户组
+![](./img/ldap-9.jpg)
+![](./img/ldap-10.jpg)
+
+#### 5. "user1"用户组的"gid"包括用户的"uid"是随机分配的，建议提前规划（此处调整为5000）
+![](./img/ldap-11.jpg)
+
+#### 6. 新建"user1"用户
+![](./img/ldap-12.jpg)
+![](./img/ldap-13.jpg) ![](./img/ldap-14.jpg)
+
+#### 7. 调整"user1"用户"uid"（此处调整为5000）
+![](./img/ldap-15.jpg)
+
+#### 8. 为用户设置初始密码
+![](./img/ldap-16.jpg)
+![](./img/ldap-17.jpg)
+
+#### 9. 为了能够让用户登录即修改密码，可将"shadowLastChange"属性值修改为"0"
+![](./img/ldap-18.jpg)
+
+
+
