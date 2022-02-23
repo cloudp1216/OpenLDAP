@@ -87,7 +87,7 @@ https://bitbucket.org/ameddeb/pqchecker/downloads/?tab=tags </p>
 
 
 ## 四、使用rpm包安装OpenLDAP
-#### 1. 使用定制rpm包（基于以上源码参数编译打包，包括了一些定制的配置，安装部署更加便捷）
+#### 1. 使用定制rpm包（基于以上源码参数编译打包，包括了一些定制的配置，安装部署非常便捷）
 [OpenLDAP-2.4.44-10.el7.x86_64.rpm](./Software/OpenLDAP-2.4.44-10.el7.x86_64.rpm)
 
 #### 2. 安装OpenLDAP服务端
@@ -172,18 +172,30 @@ _#################### 100.00% eta   none elapsed            none fast!
 Closing DB...
 ```
 
-#### 3. OpenLDAP服务管理
+#### 3. OpenLDAP自动初始化（使用rpm包安装完OpenLDAP后会自动进行数据初始化，无需操作）
+- 生成默认配置文件，位于"/usr/local/openldap/etc/openldap"目录下
+- 修改hosts文件，添加"127.0.0.1   ldaps.example.local"解析记录（注：默认域名为"ldaps.example.local"）
+- 默认域为"dc=example,dc=local"
+- 默认密码策略为"cn=defaults,ou=ppolicy,dc=example,dc=local"
+- 默认密码复杂度为：0|01010101 （密码需要包含：1位大写字母、1位小写字母、1位数字、1位特殊字符）
+- 默认sudo配置为"cn=defaults,ou=sudoers,dc=example,dc=local"
+- 服务启动为ldaps，监听636端口，证书位于"/usr/local/openldap/etc/openldap/cert"目录下
+- 配置文件"/usr/local/openldap/etc/openldap/slapd.conf"定义了默认管理员账号密码，如下：</p>
+&emsp;&emsp; 管理员账号：cn=admin,dc=example,dc=local </p>
+&emsp;&emsp; 管理员密码：admin  &emsp; (加密存储) </p>
+
+#### 4. OpenLDAP服务管理
 ```shell
 [root@local ~]# ldapctl
 Usage: /usr/sbin/ldapctl {start|stop|status|restart|check|pass|cat}
 
-ldapctl start             # 启动slapd服务
-ldapctl stop              # 停止slapd服务
-ldapctl status            # 查看slapd服务状态
-ldapctl restart           # 重启slapd服务
-ldapctl check             # 检查slapd配置文件是否正确
-ldapctl pass              # 创建加密密码
-ldapctl cat               # 查看ldap目录树数据，用于数据备份
+# ldapctl start             # 启动slapd服务
+# ldapctl stop              # 停止slapd服务
+# ldapctl status            # 查看slapd服务状态
+# ldapctl restart           # 重启slapd服务
+# ldapctl check             # 检查slapd配置文件是否正确
+# ldapctl pass              # 创建加密密码
+# ldapctl cat               # 查看ldap数据，用于数据备份
 ```
 
 
