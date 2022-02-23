@@ -436,7 +436,7 @@ root@local:~# apt install sudo-ldap
 
 
 ## 七、用户管理
-#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 登录OpenLDAP，连接信息如下
+#### 1. 使用 [LdapAdmin](./Software/LdapAdmin-w64-1.8.3.zip) 工具登录OpenLDAP管理界面，连接信息如下
 ![](./img/ldap-5.jpg)
 
 #### 2. 管理界面如下
